@@ -1,0 +1,83 @@
+<view class="pageBody">
+  <scroll-view class="homepage" scroll-y='true'>
+    <view class="homepage-scrool-body">
+      <view wx:if="{{lastestNotice!=null}}" class='homepage-notice' data-id='{{lastestNotice.id}}' bindtap='toShowNotice'>
+        <view class='homepage-notice-sign'>通知</view>
+        <view class='homepage-notice-content linkby-ellipsis'>{{lastestNotice.content}}</view>
+        <view class='homepage-notice-goto'>></view>
+      </view>
+      <form wx:if="{{false}}" report-submit='true' data-id='{{lastestNotice.id}}' bindsubmit='toShowNotice'>
+        <button form-type='submit'>
+        <view wx:if="{{lastestNotice!=null}}" class='homepage-notice' data-id='{{lastestNotice.id}}'>
+          <view class='homepage-notice-sign'>通知</view>
+          <view class='homepage-notice-content linkby-ellipsis'>{{lastestNotice.content}}</view>
+          <view class='homepage-notice-goto'>></view>
+        </view>
+        </button>
+      </form>
+      <view wx:if="{{lastHomework!=null}}" class='homepage-task' data-id='{{lastHomework.id}}' bindtap='toShowTask'>
+        <view class='homepage-task-img'>
+          <image src='{{lastHomework.imageIds}}'></image>
+        </view>
+        <view class='homepage-task-info'>
+          <view class='homepage-task-title'>最新作业</view>
+          <view class='homepage-task-content'>最新的作业已发布，请注意及时反馈</view>
+          <view class='homepage-task-goto'>></view>
+          <view class='homepage-task-date'>{{lastHomework.updateDate}}</view>
+        </view>
+      </view>
+      <view wx:if="{{taskRanking.length>0}}" class='homepage-task' bindtap='toTaskCompleteList'>
+        <view class='homepage-task-img'>
+          <image src='{{lastHomework.imageIds}}'></image>
+        </view>
+        <view class='homepage-task-info'>
+          <view class='homepage-task-title'>作业勤奋榜</view>
+          <view class='homepage-task-ranking'>
+            <view style='left:{{index*-5}}px;background-color:{{taskRankingItem.color}}' wx:for="{{taskRanking}}" wx:for-item="taskRankingItem" wx:key="{{}}">{{taskRankingItem.name}}</view>
+          </view>
+          <view class='homepage-task-goto'>></view>
+          <view class='homepage-task-my'>{{homeWorkCompleteTips}}</view>
+        </view>
+      </view>
+      <view wx:if="{{dynamicsList.length>0}}" wx:for="{{dynamicsList}}" wx:for-item="dynamicsItem" wx:key="{{}}" class='homepage-teacherCircle'>
+        <view class='homepage-head'>
+          <image src='/icons/id_00001.png'></image>
+        </view>
+        <view class='homepage-circle'>
+          <view class='homepage-circle-name'>{{dynamicsItem.dynamics.alias}}</view>
+          <view class='homepage-circle-content'>{{dynamicsItem.dynamics.content}}</view>
+          <!-- <view class='homepage-circle-imgs'>
+            <image src='/icons/img1.png'></image>
+            <image src='/icons/img1.png'></image>
+            <image src='/icons/img1.png'></image>
+          </view> -->
+          <view class='circle-item-imgList' wx:if="{{dynamicsItem.dynamics.imgArr&&dynamicsItem.dynamics.imgArr.length>0}}">
+              <view wx:if="{{dynamicsItem.dynamics.imgArr&&dynamicsItem.dynamics.imgArr.length==1}}" class='circle-item-img1'>
+                <image src='{{dynamicsItem.dynamics.imgArr[0]}}' data-id="{{dynamicsItem.dynamics.id}}" bindtap='imgYu'></image>
+              </view>
+              <view wx:if="{{dynamicsItem.dynamics.imgArr&&dynamicsItem.dynamics.imgArr.length>1&&dynamicsItem.dynamics.imgArr.length<4}}" class='circle-item-img2'>
+                <image src='{{imgItem}}' bindtap='imgYu' wx:for="{{dynamicsItem.dynamics.imgArr}}" 
+                wx:for-item="imgItem" wx:key="{{}}" data-id="{{dynamicsItem.dynamics.id}}" bindtap='imgYu'></image>
+              </view>
+              <view wx:if="{{dynamicsItem.dynamics.imgArr&&dynamicsItem.dynamics.imgArr.length>3&&dynamicsItem.dynamics.imgArr.length<7}}" class='circle-item-img3'>
+                <image src='{{imgItem}}' wx:for="{{dynamicsItem.dynamics.imgArr}}" 
+                wx:for-item="imgItem" wx:key="{{}}" data-id="{{dynamicsItem.dynamics.id}}" bindtap='imgYu'></image>
+              </view>
+              <view wx:if="{{dynamicsItem.dynamics.imgArr&&dynamicsItem.dynamics.imgArr.length>6}}" class='circle-item-img4'>
+                <image src='{{imgItem}}' wx:for="{{dynamicsItem.dynamics.imgArr}}" 
+                wx:for-item="imgItem" wx:key="{{}}" data-id="{{dynamicsItem.dynamics.id}}" bindtap='imgYu'></image>
+              </view>
+            </view>
+          <view class='homepage-circle-comment'>
+            <view class='homepage-circle-d'>{{dynamicsItem.dynamics.showTimeTxt}}</view>
+            <view wx:if="{{false}}" class='homepage-circle-c'>
+              <image src='/icons/praise.png'></image>赞
+              <image src='/icons/comment.png'></image>评论
+              <!-- <image src='/icons/delete.png'></image>删除 -->
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

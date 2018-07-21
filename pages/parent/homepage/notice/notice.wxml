@@ -1,0 +1,25 @@
+<view class="pageBody">
+  <scroll-view class="notice" scroll-y='true'>
+    <view class="notice-scrool-body">
+      <view class="notice-scrool-body-padding">
+        <view class='notice-item' wx:for="{{noticeList}}" wx:for-item="noticeItem" wx:key="{{}}">
+          <view class='task-data'>{{noticeItem.notice.date}}</view>
+          <view class='notice-list'>
+            <image class='notice-sign' src="/icons/{{noticeItem.isRead?'read':'unread'}}.png"></image>
+            <view class='notice-content' data-id="{{noticeItem.notice.id}}" bindtap='toShowNotice'>
+              <image src='/icons/head.png'></image>
+              <view class='notice-info'>
+                <view class='notice-title linkby-ellipsis-1'>{{noticeItem.notice.title}} </view>
+                <view class='notice-details linkby-ellipsis-4'>{{noticeItem.notice.content}}</view>
+              </view>
+            </view>
+            <view class='notice-time'>
+              <view class='notice-time-d'>发表于 {{noticeItem.notice.time}}</view>
+              <view class='notice-time-c' bindtap="toShowNotice" data-id="{{noticeItem.notice.id}}">查看详情 ></view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

@@ -5,7 +5,7 @@
         <view class='homepage-notice-sign'>通知</view>
         <view class='homepage-notice-content linkby-ellipsis'>{{lastestNotice.content}}</view>
         <view class='homepage-notice-goto'>></view>
-      </view>
+      </view> 
       <form wx:if="{{false}}" report-submit='true' data-id='{{lastestNotice.id}}' bindsubmit='toShowNotice'>
         <button form-type='submit'>
         <view wx:if="{{lastestNotice!=null}}" class='homepage-notice' data-id='{{lastestNotice.id}}'>

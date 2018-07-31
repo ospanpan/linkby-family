@@ -1,11 +1,11 @@
 <view class="pageBody">
-  <scroll-view class="homepage" scroll-y='true'>
+  <view class="homepage" scroll-y='true'>
     <view class="homepage-scrool-body">
       <view wx:if="{{lastestNotice!=null}}" class='homepage-notice' data-id='{{lastestNotice.id}}' bindtap='toShowNotice'>
         <view class='homepage-notice-sign'>通知</view>
         <view class='homepage-notice-content linkby-ellipsis'>{{lastestNotice.content}}</view>
         <view class='homepage-notice-goto'>></view>
-      </view> 
+      </view>
       <form wx:if="{{false}}" report-submit='true' data-id='{{lastestNotice.id}}' bindsubmit='toShowNotice'>
         <button form-type='submit'>
         <view wx:if="{{lastestNotice!=null}}" class='homepage-notice' data-id='{{lastestNotice.id}}'>
@@ -78,6 +78,13 @@
           </view>
         </view>
       </view>
+        
+          <view class="loadmore-pullup" hidden="{{hidePullUp}}">
+            <view>正在加载...</view>
+          </view>
+          <view class="no-more-load" hidden="{{hideNoMore}}">
+            <view>已经见底啦</view>
+          </view>
     </view>
-  </scroll-view>
+  </view>
 </view>

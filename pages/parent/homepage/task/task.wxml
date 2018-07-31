@@ -1,14 +1,23 @@
 <view class="pageBody">
-  <scroll-view class="task" scroll-y='true'>
+  <view class="refresh-pulldown" hidden="{{hidePullDown}}">
+    <view>正在刷新...</view>
+  </view>
+  <scroll-view class="task" scroll-y='true' bindscrolltolower="loadMoreHomework" bindscrolltoupper="refreshHomework">
     <view class="task-scrool-body">
       <view class='task-item' wx:for="{{homeworkList}}" wx:for-item="tItem" wx:key="{{}}" data-id="{{tItem.id}}" bindtap='toShowTask'>
-        <view class='task-data'>{{tItem.updateDateTxt}}  {{tItem.weekday}}</view>
+        <view class='task-data'>{{tItem.updateDateTxt}} {{tItem.weekday}}</view>
         <view class='task-list'>
           <image src="{{tItem.imageIds!=null&&tItem.imageIds!='' ? tItem.imageIds : '/icons/img1.png'}}"></image>
           <view class='task-shadow'></view>
           <view class='task-title linkby-ellipsis'>{{tItem.content!=null&&tItem.content!="" ? tItem.content : '今日作业已发布，请准时反馈！' }}</view>
           <view class='task-time'>发表于 {{ tItem.updateDateTxt }}</view>
         </view>
+      </view>
+      <view class="loadmore-pullup" hidden="{{hidePullUp}}">
+        <view>正在加载...</view>
+      </view>
+      <view class="no-more-load" hidden="{{hideNoMore}}">
+        <view>已经见底啦</view>
       </view>
     </view>
   </scroll-view>

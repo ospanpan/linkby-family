@@ -1,6 +1,10 @@
 Page({
-  data: {    
+  data: {
+    hidePullDown: true,
+    hidePullUp: true,
+    hideNoMore: true,  
     curPage_notice: 0,  //通知列表当前页码
+    totalPage_notice: 0, 
     noticeList: [],     //通知列表
 
     familyInfo: { student: "", appellation: "" },  //当前家长信息
@@ -41,12 +45,40 @@ Page({
     })
   },
 
-  onPullDownRefresh: function () {
-
+  refreshNotice: function () {
+    var curModule = this;
+    curModule.setData({ hideNoMore: true });
+    curModule.setData({ hidePullDown: false });
+    curModule.setData({ curPage_notice: 0 });
+    curModule.getNoticeList(function () {
+      curModule.setData({ hidePullDown: true });
+      if (curModule.data.totalPage_notice > curModule.data.curPage_notice) {
+        curModule.setData({ hideNoMore: true });
+      } else {
+        curModule.setData({ hideNoMore: false });
+      }
+    });
   },
 
-  onReachBottom: function () {
-
+  loadMoreNotice: function () {
+    var curModule = this;
+    curModule.setData({ hideNoMore: true });
+    curModule.setData({ hidePullUp: false });
+    setTimeout(function () {
+      if (curModule.data.totalPage_notice > curModule.data.curPage_notice) {
+        curModule.getNoticeList(function () {
+          curModule.setData({ hidePullUp: true });
+          if (curModule.data.totalPage_notice > curModule.data.curPage_notice) {
+            curModule.setData({ hideNoMore: true });
+          } else {
+            curModule.setData({ hideNoMore: false });
+          }
+        });
+      }else{
+        curModule.setData({ hidePullUp: true });
+        curModule.setData({ hideNoMore: false });
+      }
+    }, 300);
   },
 
   reloadInfo: function () {
@@ -71,7 +103,7 @@ Page({
     }, function () { });
   },
   //获取通知列表
-  getNoticeList: function () {
+  getNoticeList: function (sucFun) {
     var curModule = this;
     var app = getApp();
     app.get_api_data(app.globalData.api_URL.GetClassNoticeList,
@@ -96,7 +128,11 @@ Page({
             data.data.dataList[i].notice.time = hour + ":" + minute;
           }
           curModule.setData({ curPage_notice: data.data.curPage });
-          curModule.setData({ noticeList: data.data.dataList });
+          curModule.setData({ totalPage_notice: data.data.pageCount });
+          curModule.setData({ noticeList: curModule.data.noticeList.concat(data.data.dataList) });
+          if(typeof(sucFun)=="function"){
+            sucFun();
+          }
         }
       }, function () {
         wx.showToast({ title: "获取失败" });

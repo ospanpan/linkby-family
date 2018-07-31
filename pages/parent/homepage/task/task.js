@@ -1,7 +1,11 @@
 Page({
   data: {
+    hidePullDown: true,
+    hidePullUp: true,
+    hideNoMore: true,
     homeworkList: [],     //作业列表数据
     curPage_homework: 0,  //作业列表当前页码
+    totalPage_homework: 0,
 
     familyInfo: { student: "", appellation: "" },  //当前家长信息
     userInfo: null     //用户信息
@@ -41,12 +45,40 @@ Page({
     })
   },
 
-  onPullDownRefresh: function () {
-
+  loadMoreHomework: function () {
+    var curModule = this;
+    curModule.setData({ hideNoMore: true });
+    curModule.setData({ hidePullUp: false });
+    setTimeout(function () {
+      if (curModule.data.totalPage_homework > curModule.data.curPage_homework) {
+        curModule.getHomeworkList(function () {
+          curModule.setData({ hidePullUp: true });
+          if (curModule.data.totalPage_homework > curModule.data.curPage_homework) {
+            curModule.setData({ hideNoMore: true });
+          } else {
+            curModule.setData({ hideNoMore: false });
+          }
+        });
+      }else{
+        curModule.setData({ hidePullUp: true });
+        curModule.setData({ hideNoMore: false });
+      }
+    }, 300);
   },
 
-  onReachBottom: function () {
-
+  refreshHomework: function () {
+    var curModule = this;
+    curModule.setData({ hideNoMore: true });
+    curModule.setData({ hidePullDown: false });
+    curModule.setData({ curPage_homework: 0 });
+    curModule.getHomeworkList(function () {
+      curModule.setData({ hidePullDown: true });
+      if (curModule.data.totalPage_homework > curModule.data.curPage_homework) {
+        curModule.setData({ hideNoMore: true });
+      } else {
+        curModule.setData({ hideNoMore: false });
+      }
+    });
   },
 
   reloadInfo: function () {
@@ -62,7 +94,7 @@ Page({
     wx.navigateTo({ url: '/pages/parent/task/content/content?homeworkId=' + id });
   },
   //获取作业分页列表
-  getHomeworkList: function () {
+  getHomeworkList: function (sucFun) {
     var curModule = this;
     var app = getApp();
     app.get_api_data(app.globalData.api_URL.GetHomeworkList,
@@ -75,7 +107,11 @@ Page({
       function (data) {
         if (data.apiStatus == "200") {
           curModule.setData({ curPage_homework: data.data.curPage });
-          curModule.setData({ homeworkList: data.data.dataList });
+          curModule.setData({ totalPage_homework: data.data.pageCount });
+          curModule.setData({ homeworkList: curModule.data.homeworkList.concat(data.data.dataList) });
+        }
+        if (typeof (sucFun)=="function"){
+          sucFun();
         }
       }, function () {
         wx.showToast({ title: "获取失败" });

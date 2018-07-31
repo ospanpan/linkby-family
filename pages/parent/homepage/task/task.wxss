@@ -265,6 +265,7 @@
 
 .task-list image {
   height: 280rpx;
+  width: 100%;
 }
 
 .task-time {
@@ -283,7 +284,7 @@
   line-height: 70rpx;
   top: 220rpx;
   color: #fff;
-  width: 320px;
+  width: 100%;
   font-size: 28rpx;
   padding-left: 50rpx;
 }
@@ -295,7 +296,7 @@
   top: 220rpx;
   background-color: #333;
   opacity: 0.5;
-  width: 320px;
+  width: 100%;
   border-bottom-left-radius: 20rpx;
   border-bottom-right-radius: 20rpx;
 }
@@ -630,4 +631,15 @@
     overflow: hidden;  
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+.refresh-pulldown, .loadmore-pullup{
+  text-align:center;
+  height:100rpx;
+  line-height:100rpx;
+  background-color:#ffffff;
+}
+.no-more-load{
+  text-align:center;
+  height:100rpx;
+  line-height:100rpx;
 }

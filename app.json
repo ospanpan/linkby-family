@@ -1,10 +1,8 @@
 {
   "pages": [
     "pages/parent/homepage/index/index",
-    "pages/parent/homepage/homepage",
     "pages/parent/login/login",
     "pages/parent/circle/circle",
-    "pages/teacher/task/create/create",
     "pages/parent/task/content/content",
     "pages/parent/task/list/list",
     "pages/parent/notice/notice",

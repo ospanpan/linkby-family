@@ -1,5 +1,8 @@
 <view class="pageBody">
-  <scroll-view class="notice" scroll-y='true'>
+  <view class="refresh-pulldown" hidden="{{hidePullDown}}">
+    <view>正在刷新...</view>
+  </view>
+  <scroll-view class="notice" scroll-y='true' bindscrolltolower="loadMoreNotice" bindscrolltoupper="refreshNotice">
     <view class="notice-scrool-body">
       <view class="notice-scrool-body-padding">
         <view class='notice-item' wx:for="{{noticeList}}" wx:for-item="noticeItem" wx:key="{{}}">
@@ -18,6 +21,13 @@
               <view class='notice-time-c' bindtap="toShowNotice" data-id="{{noticeItem.notice.id}}">查看详情 ></view>
             </view>
           </view>
+        </view>
+
+        <view class="loadmore-pullup" hidden="{{hidePullUp}}">
+          <view>正在加载...</view>
+        </view>
+        <view class="no-more-load" hidden="{{hideNoMore}}">
+          <view>已经见底啦</view>
         </view>
       </view>
     </view>

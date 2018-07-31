@@ -1,5 +1,7 @@
 Page({
   data: {
+    hidePullUp: true,
+    hideNoMore: true,
     //首页通知内容
     lastestNotice: null,
     //首页最新作业
@@ -12,16 +14,10 @@ Page({
     dynamicsList: [],
     //班级圈页码
     curPage_dynamics: 0,
-    homeworkList: [],     //作业列表数据
-    curPage_homework: 0,  //作业列表当前页码
-    curPage_notice: 0,  //通知列表当前页码
-    noticeList: [],     //通知列表
+    totalPage_dynamics:0,
 
     familyInfo: { student: "", appellation: "" },  //当前家长信息
-    userInfo: null,     //用户信息
-    allClasses: [],      //当前家长所有班级信息
-
-    interactionCount: 0, //班级圈互动数量
+    userInfo: null     //用户信息
   },
   onLoad: function () {
     var app = getApp();
@@ -59,11 +55,21 @@ Page({
   },
 
   onPullDownRefresh: function () {
-
+    this.setData({ curPage_dynamics: 0 });
+    this.setData({ totalPage_dynamics: 0 });
+    this.reloadInfo();
+    setTimeout(function(){
+      wx.stopPullDownRefresh();
+    }, 800);
   },
 
   onReachBottom: function () {
-
+    var curModule = this;
+    if (curModule.data.totalPage_dynamics > curModule.data.curPage_dynamics) {
+      curModule.setData({ hideNoMore: true });
+      curModule.setData({ hidePullUp: false });
+      curModule.getTecherDynamicsList();//获取班级圈老师动态
+    }
   },
 
   reloadInfo: function () {
@@ -241,7 +247,7 @@ Page({
     });
   },
   //获取班级圈老师动态
-  getTecherDynamicsList: function () {
+  getTecherDynamicsList: function (sucFun) {
     var curModule = this;
     var app = getApp();
     app.get_api_data(app.globalData.api_URL.GetTecherDynamicsList,
@@ -260,7 +266,15 @@ Page({
               data.data.dataList[i].dynamics.imgArr = data.data.dataList[i].dynamics.imageIds.split(",");
             }
           }
-          curModule.setData({ dynamicsList: data.data.dataList });
+          curModule.setData({ dynamicsList: curModule.data.dynamicsList.concat(data.data.dataList) });
+          curModule.setData({ curPage_dynamics: data.data.curPage });
+          curModule.setData({ totalPage_dynamics: data.data.pageCount });
+          curModule.setData({ hidePullUp: true });
+          if (curModule.data.curPage_dynamics > curModule.data.curPage_dynamics) {
+            curModule.setData({ hideNoMore: true });
+          } else {
+            curModule.setData({ hideNoMore: false });
+          }
         }
       }, function () {
         wx.showToast({ title: "获取失败" });

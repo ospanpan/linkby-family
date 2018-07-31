@@ -631,3 +631,14 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+.refresh-pulldown, .loadmore-pullup{
+  text-align:center;
+  height:100rpx;
+  line-height:100rpx;
+  background-color:#ffffff;
+}
+.no-more-load{
+  text-align:center;
+  height:100rpx;
+  line-height:100rpx;
+}

@@ -4,12 +4,17 @@ Page({
     isComplete: false,
     homeworkId: '',
     homework: null,
-    hiddenLoading: false
+    hiddenLoading: false,
+    // 语音列表
+    voiceList:[{},{},{},{}]
   },
   onLoad: function (option) {
     var curModule = this;
     curModule.setData({ homeworkId: option.homeworkId });
     curModule.getHomeworkDetails(curModule.getHomeworkCompletion());
+  },
+  taskVoice:function(){
+
   },
   taskComplete:function(){
     var curModule = this;
